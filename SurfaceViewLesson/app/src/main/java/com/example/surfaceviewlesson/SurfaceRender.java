@@ -159,6 +159,8 @@ public class SurfaceRender  extends SurfaceView implements SurfaceHolder.Callbac
             Context context = getContext();
             Intent intent = new Intent(context, FinishLayoutActivity.class);
             context.startActivity(intent);
+            _timer.cancel();
+            _timer.purge();
         }
     }
 }

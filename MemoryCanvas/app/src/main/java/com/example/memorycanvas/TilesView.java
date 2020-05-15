@@ -139,7 +139,7 @@ public class TilesView extends View {
         height = getHeight();
         if(!cardsCoordsComputed) {
             cards = computeCoordsCards(
-                    getCardsColorsArray(3),
+                    getCardsColorsArray(7),
                     50,
                     150,
                     200,
