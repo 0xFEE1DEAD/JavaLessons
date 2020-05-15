@@ -1,0 +1,6 @@
+[
+  {"name":"Petya","phoneNumber":"123","sex":"MAN"},
+  {"name":"Vasya","phoneNumber":"234","sex":"MAN"},
+  {"name":"Valya","phoneNumber":"456","sex":"WOMAN"},
+  {"name":"UFO","phoneNumber":"@@@","sex":"UNKNOWN"}
+]
