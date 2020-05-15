@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">MemoryCanvas</string>
+    <string name="finish_message">Игра завершена!</string>
+    <string name="finish_btn_text">Начать заново</string>
+</resources>
