@@ -35,7 +35,8 @@ class _PixmapSearcherState extends State<PixmapSearcher> {
   final url = 'https://pixabay.com/api/?q={0}&key=8831692-b1c2e4ac049f22756c0be1b6c&image_type=photo';
   var searchFieldController = TextEditingController();
   var _loading = false;
-  List<String> images = List<String>();
+  var _gridWievItemsPerRow = 2;
+  List<Widget> images = List<Widget>();
 
   @override
   void dispose() {
@@ -98,26 +99,41 @@ class _PixmapSearcherState extends State<PixmapSearcher> {
       );
     } else {
       return GridView.count(
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this produces 2 rows.
-        crossAxisCount: 2,
-        // Generate 100 widgets that display their index in the List.
-        children: images.map((String url) {
-          return Image.network(url, fit: BoxFit.cover);
-        }).toList()
+        crossAxisCount: _gridWievItemsPerRow,
+        children: images
       );
     }
   }
 
   void _sendRequest() async  {
-    var searchQ = searchFieldController.text;
-    var completedUrl = url.replaceFirst('{0}', searchQ);
-    final response = await http.get(completedUrl);
-    final extractedData = jsonDecode(response.body);
-    List loadedCars = extractedData['hits'];
-    images.clear();
-    for(var i in loadedCars) {
-      images.add(i["previewURL"]);
+    final searchQ = searchFieldController.text;
+    final completedUrl = url.replaceFirst('{0}', searchQ);
+    try {
+      final response = await http.get(completedUrl);
+      if (response.statusCode == 200) {
+        _gridWievItemsPerRow = 2;
+        final extractedData = jsonDecode(response.body);
+        List loadedCars = extractedData['hits'];
+        images.clear();
+        for (var i in loadedCars) {
+          images.add(
+              Image.network(
+                i["previewURL"],
+                fit: BoxFit.cover
+              )
+          );
+        }
+      } else {
+        throw("error network");
+      }
+    } catch (error) {
+      _gridWievItemsPerRow = 1;
+      images.clear();
+      images.add(
+        Image(
+            image: AssetImage('assets/no_image.png')
+        )
+      );
     }
     setState(() {
       _loading = false;
